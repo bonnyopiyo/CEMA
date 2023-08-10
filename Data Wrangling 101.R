@@ -49,7 +49,7 @@ dat2 <- dat1 %>%
   mutate(admit=recode(admit, "0"="deny", "1"="accept"))
 
 # rename columns (rank-position) new=old
-dat3 <- dat1%>%
+dat3 <- dat1 %>%
   rename(position=rank)
 
 # load more data
@@ -66,7 +66,7 @@ ideal1a <- ideal1 %>%
   mutate(CalfSex = recode(CalfSex, "1"="male", "2"="female"))
 
 # check column names
-colnames(ideal1) 
+colnames(ideal1)
 
 # clean column names (rename CADOB - calf_date_of_birth)
 ideal1b <- ideal1 %>%
@@ -105,7 +105,7 @@ ideal1c <- ideal1%>%
 #library(lubridate)
 
 # convert CADOB to date format
-ideal1d <- ideal1%>%
+ideal1d <- ideal1 %>%
   mutate(CADOB = as.Date(CADOB, format="%d/%m/%Y")) %>%
   arrange(CADOB) #arrange the data according to the date column
 
@@ -191,7 +191,7 @@ dogdemography1 <- dogdemography %>%
          , dogBitesPastMonth = DogBite) %>%
   mutate(interviewDate = as.Date(interviewDate, format="%m/%d/%y")) %>%
   # 0-no, 1-yes, else-NA
-  mutate(dogBitesPastMonth = ifelse(dogBitesPastMonth =="0","No", ifelse(dogBitesPastMonth=="1","Yes", NA)))%>%
+  mutate(dogBitesPastMonth = ifelse(dogBitesPastMonth=="0","No", ifelse(dogBitesPastMonth=="1","Yes", NA)))%>%
   mutate(villageID = as.character(villageID)) %>%
   group_by(villageID) %>%
   mutate(avrg_hh_mmbrs=round(mean(householdMembers))) %>%
@@ -311,3 +311,61 @@ ggplot(calves_gender1, aes(x=sublocation, y=proportion, fill=CalfSex))+ # color 
   coord_flip()
 
 Mumbua <- 0715256757
+
+# facetting graphs
+## have several graphs on same panel
+## facet_grid(rows=vars(columnname))
+
+# no color
+ggplot(calves_gender, aes(x=sublocation, y=freq))+ # color the graph by sex
+  geom_col()+
+  facet_grid(cols = vars(CalfSex))+ #add facets (can also take rows)
+  theme_bw()+
+  labs(x="Sublocation", y="Frequency")+
+  coord_flip() 
+
+# add color for male and female
+ggplot(calves_gender, aes(x=sublocation, y=freq, fill=CalfSex))+ # color the graph by sex
+  geom_col()+
+  facet_grid(cols = vars(CalfSex))+ #add facets (can also take rows)
+  theme_bw()+
+  scale_fill_manual(values = c("#fc8d59", "#91bfdb"))+
+  #scale_fill_brewer(palette = "RdYlBu") + 
+  labs(x="Sublocation", y="Frequency")+
+  coord_flip() 
+
+# one color for all bars
+ggplot(calves_gender, aes(x=sublocation, y=freq))+ # color the graph by sex
+  geom_col(fill="#91bfdb")+
+  facet_grid(cols = vars(CalfSex))+ #add facets (can also take rows)
+  theme_bw()+
+  labs(x="Sublocation", y="Frequency")+
+  coord_flip() 
+
+## facet_wrap(~columnname)
+
+ggplot(calves_gender, aes(x=sublocation, y=freq))+ # color the graph by sex
+  geom_col(fill="#91bfdb")+
+  facet_wrap(~CalfSex)+
+  theme_bw()+
+  labs(x="Sublocation", y="Frequency")+
+  coord_flip() 
+
+# separate one column into several columns (separate)
+dogdemography2 <- dogdemography1 %>%
+  separate(interviewDate, into = c("year", "month", "day"), sep = "-")
+
+# combine different columns into one column (paste0)
+dogdemography3 <- dogdemography2 %>%
+  mutate(interviewDate=paste0(year,"-",month,"-",day))
+
+
+# set working directory
+
+
+# read locally stored data files
+# csv
+# excel
+# spss/stata
+
+

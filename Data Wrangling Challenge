@@ -1,0 +1,31 @@
+•	You are provided with a subset of a dataset obtained from a randomized control trial with three study arms. The study aims to determine the impact of two interventions delivered at household level on nutritional outcomes of children.
+o	Study arm 1: Households received livestock feed
+o	Study arm 2: Households received enhanced nutritional counseling in addition to the livestock feed
+o	Study arm 3: Control arm households
+•	You can access the data using this link: https://github.com/cema-uonbi/L4H_sample_data.git 
+(Hint: In case you are not familiar with Github, click code, local then download zip.
+o	Import the data
+o	Clean the column names of each dataset using function clean_names from the package janitor
+o	Filter data in baseline household data where the hh_eligible is 1 (use the data_dictionary to check what that stands for)
+o	Merge the datasets
+	To do this, use number (in baseline individual data) and number__0 (in baseline mother data) to merge these data then, 
+	Use the household_id to merge the data above with baseline household data
+o	Use the data dictionary (location - https://github.com/cema-uonbi/L4H_sample_data.git) to recode the following variables:
+	Reason_for_eligibility
+	Rspntgndr
+	H_hfrml_eductn
+	Rspndtmarital
+	Rspndt_eductn
+	Maincme
+o	Separate the following variables: 
+	lvstckown using space as a separator 
+	herdynamics using space as a separator 
+o	Create a new column called study_arm and assign the values for each row of data to either Study arm 1, study arm 2 or Study arm 3 based on column named villages as below:
+	Study arm 1: Lependera, Gobb Arbelle, Nahgan-ngusa, Sulate, Saale-Sambakah, Namarei, Manyatta Lengima, Lokoshula, TubchaDakhane, Rengumo-Gargule
+	Study arm 2: Galthelian-Torrder, Uyam  village, Galthelan Elemo, Nebey, Rongumo_kurkum, Urawen_Kurkum, Eisimatacho, Manyatta K.A.G, Ltepes Ooodo, Lorokushu, Marti, Manyatta Juu West/East, Lbaarok1
+	Study arm 3: All the other villages
+o	Create an object named herd_dynamics that has the following column names interview_date, household_id, study_arm, cwsbrth, shpbrth, goatsbrth, cmlsbrth, calves_death, bulls_death, cows_death, sheep_death, msheep_death, fsheep_death, goats_death, mgoats_death, fgoats_death, camels_death, mcamels_death, fcamels_death, cowsgft, sheepgfts, goatsgft and cmlsgft variables.
+	Create a new column named monthyear from the variable interview_date that has only month and year (e.g., 2019-12-28 to 2019-12)
+	For each study_arm, and for each monthyear, calculate the number of animals born, died, gifted and given out for each species (cows, sheep, goats and camels) regardless of age or sex of animal
+	Create a subset of the dataset with the following variables: study arm, monthyear, columns of cows, sheep, goats and camels births, deaths, gifts and given away, which have been calculated above. Ensure you remove duplicates in the data.
+
